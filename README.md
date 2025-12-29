@@ -1,1 +1,1 @@
-# cosy-focus
+# Cosy Focus
