@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "prisma": "^7.3.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.3.0",
+    "mysql2": "^3.16.1"
+  }
+}
