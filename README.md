@@ -1,1 +1,4 @@
 # Cosy Focus
+
+## Tech Stack
+
