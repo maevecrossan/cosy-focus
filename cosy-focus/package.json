@@ -6,6 +6,7 @@
     "lint": "next lint"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.0.10",
     "@types/react": "^19.2.10",
     "autoprefixer": "^10.4.23",
