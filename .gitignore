@@ -46,3 +46,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# nested cosy-focus app
+/cosy-focus/node_modules
+/cosy-focus/.next
+/cosy-focus/out
+/cosy-focus/build
