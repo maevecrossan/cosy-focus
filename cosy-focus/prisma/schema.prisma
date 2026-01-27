@@ -8,7 +8,6 @@ datasource db {
 }
 
 // FOCUS ITEMS TABLE
-
 // Predetermined choices for focus status
 enum FocusStatus {
   available
@@ -17,7 +16,6 @@ enum FocusStatus {
 }
 
 // The table below represents one item on a Cosy Focus board
-
 model FocusItem {
   id        Int      @id @default(autoincrement())
   title     String
