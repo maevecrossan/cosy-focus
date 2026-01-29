@@ -1,7 +1,0 @@
-node_modules
-/node_modules
-.next
-# Keep environment variables out of version control
-.env
-
-/app/generated/prisma

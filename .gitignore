@@ -2,7 +2,20 @@ PLANNING.md
 ITERATION_1.md
 ITERATION_1_CHECKLIST.md
 FUTURE_PLANNING.md
-/generated/prisma
+
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Prisma
+**/app/generated/
+prisma/dev.db*
+prisma/*.log
+
+# Environment variables
 .env
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
