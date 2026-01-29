@@ -47,9 +47,9 @@ export default function FocusBoard() {
 
     // useMemo to avoid re-running on every render.
     // Only re-runs when items change.
-        // Note: we avoid storing grouped in state because 
-        // that would duplicate data. useMemo caches the result 
-        // until items changes
+    // Note: we avoid storing grouped in state because 
+    // that would duplicate data. useMemo caches the result 
+    // until items changes
     const grouped = useMemo(() => {
         const base = {
             available: [] as FocusItem[],
@@ -67,19 +67,42 @@ export default function FocusBoard() {
     }, [items]);
 
     return (
-        <div className="min-h-screen bg-emerald-900/40 p-8">
-            <h1 className="mb-8 text-3xl font-bold text-center text-gray-900">
-                Focus Board Component
-            </h1>
+        <section className="mt-8 p-8 bg-emerald-900/40 rounded-3xl shadow-md w-full max-w-7xl">
+            <div className="mb-6 flex justify-between">
+                <h2 className="text-2xl font-bold">Your Focus board</h2>
+                {!loading && !error && (
+                    <span className="text-sm opacity-70">{items.length} items</span>
+                )}
+            </div>
 
-            <div className="min-w-7xl">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {loading && (
+                <div className="rounded-xl border bg-white p-4">
+                    Loading focus items…
+                </div>
+            )}
+
+            {!loading && error && (
+                <div className="rounded-xl border bg-white p-4 text-red-600">
+                    Error: {error}
+                </div>
+            )}
+
+            {!loading && !error && items.length === 0 && (
+                <div className="rounded-xl border bg-white p-6">
+                    <p className="font-medium">No focus items yet.</p>
+                    <p className="mt-1 text-sm opacity-70">
+                        When you add some, they’ll show up here!
+                    </p>
+                </div>
+            )}
+
+            {!loading && !error && items.length > 0 && (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                     <Column title="Available" items={grouped.available} />
                     <Column title="In Focus" items={grouped.in_focus} />
                     <Column title="Completed" items={grouped.completed} />
                 </div>
-            </div>
-
-        </div>
+            )}
+        </section>
     );
 }
