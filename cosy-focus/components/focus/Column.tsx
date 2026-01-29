@@ -1,3 +1,5 @@
+// Renders a single column in the focus board
+
 type FocusStatus = 'available' | 'in_focus' | 'completed';
 
 export type FocusItem = {
