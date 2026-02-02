@@ -115,9 +115,9 @@ export default function FocusBoard() {
 
             {!loading && !error && items.length > 0 && (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                    <Column title="Available" items={grouped.available} />
-                    <Column title="In Focus" items={grouped.in_focus} />
-                    <Column title="Completed" items={grouped.completed} />
+                    <Column title="Available" items={grouped.available} onStart={startFocus} onComplete={completeFocus}/>
+                    <Column title="In Focus" items={grouped.in_focus} onStart={startFocus} onComplete={completeFocus}/>
+                    <Column title="Completed" items={grouped.completed} onStart={startFocus} onComplete={completeFocus}/>
                 </div>
             )}
         </section>
