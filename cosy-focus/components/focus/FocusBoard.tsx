@@ -61,7 +61,27 @@ export default function FocusBoard() {
         };
     }, [items]);
 
-    // Handlers here
+    // Function to start a focus item
+    // Calls the API to change status to "in_focus"
+    async function startFocus(id: number) {
+        const res = await fetch(`/api/focus-items/${id}/start`, { method: "PATCH" });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body?.error ?? `Failed to start focus (${res.status})`);
+        }
+        await refresh();
+    }
+
+    // Function to complete a focus item
+    // Calls the API to change status to "completed"
+    async function completeFocus(id: number) {
+        const res = await fetch(`/api/focus-items/${id}/complete`, { method: "PATCH" });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body?.error ?? `Failed to complete (${res.status})`);
+        }
+        await refresh();
+    }
 
     return (
         <section className="mt-8 p-8 bg-emerald-900/40 rounded-3xl shadow-md w-full max-w-7xl">
