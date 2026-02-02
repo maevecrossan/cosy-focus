@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Column, { FocusItem } from "./Column";
 
 type FocusStatus = 'available' | 'in_focus' | 'completed';
@@ -25,25 +25,28 @@ export default function FocusBoard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function load() {
-            try {
-                setLoading(true);
-                setError(null);
+    // Refresh function to re-fetch focus items
+    const refresh = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(null);
 
-                const res = await fetch('/api/focus-items', { cache: 'no-store' });
-                if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+            const res = await fetch('/api/focus-items', { cache: 'no-store' });
+            if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 
-                const data: ApiFocusItem[] = await res.json();
-                setItems(data); //only re-renders on success. loading = true when request is in flight
-            } catch (e) {
-                setError(e instanceof Error ? e.message : "Something went wrong");
-            } finally {
-                setLoading(false);
-            }
+            const data: ApiFocusItem[] = await res.json();
+            setItems(data); //only re-renders on success. loading = true when request is in flight
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Something went wrong");
+        } finally {
+            setLoading(false);
         }
-        load();
     }, []);
+
+    // Initial fetch on component mount
+    useEffect(() => {
+        refresh();
+    }, [refresh]);
 
     // useMemo to avoid re-running on every render.
     // Only re-runs when items change.
@@ -51,20 +54,14 @@ export default function FocusBoard() {
     // that would duplicate data. useMemo caches the result 
     // until items changes
     const grouped = useMemo(() => {
-        const base = {
-            available: [] as FocusItem[],
-            in_focus: [] as FocusItem[],
-            completed: [] as FocusItem[],
+        return {
+            available: items.filter(item => item.status === 'available'),
+            in_focus: items.filter(item => item.status === 'in_focus'),
+            completed: items.filter(item => item.status === 'completed'),
         };
-
-        for (const item of items) {
-            if (item.status === "available") base.available.push(item);
-            else if (item.status === "in_focus") base.in_focus.push(item);
-            else base.completed.push(item);
-        }
-
-        return base;
     }, [items]);
+
+    // Handlers here
 
     return (
         <section className="mt-8 p-8 bg-emerald-900/40 rounded-3xl shadow-md w-full max-w-7xl">
