@@ -11,17 +11,18 @@ export default function FocusItemCard({ item }: FocusItemCardProps) {
     return (
         <section>
             <div className='rounded-xl border bg-white p-3'>
+                
                 <p className="font-medium">{item.title}</p>
                 <p className="text-xs opacity-60">#{item.id}</p>
+
+                <Button className="mt-2 w-full" variant="primary">
+                    Start Focus
+                </Button>
+
+                <Button className="mt-2 w-full" variant="secondary">
+                    Complete
+                </Button>
             </div>
-
-            <Button className="mt-2 w-full" variant="primary">
-                Start Focus
-            </Button>
-
-            <Button className="mt-2 w-full" variant="secondary">
-                Complete
-            </Button>
         </section>
     );
 }
