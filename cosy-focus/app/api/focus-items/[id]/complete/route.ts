@@ -40,7 +40,7 @@ export async function PATCH(request: Request) {
         );
     }
 
-    // 8. Validate current status (in_focus only)
+    // 8. Validate current status (in_focus can only be completed)
     if (focusItem.status !== "in_focus") {
         return NextResponse.json(
             { error: `Cannot complete item from status: ${focusItem.status}` },
