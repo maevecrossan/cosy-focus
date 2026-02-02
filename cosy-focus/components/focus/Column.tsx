@@ -1,4 +1,5 @@
 // Renders a single column in the focus board
+import FocusItemCard from "./FocusItemCard";
 
 type FocusStatus = 'available' | 'in_focus' | 'completed';
 
@@ -20,10 +21,7 @@ export default function Column({ title, items }: ColumnProps) {
 
             <div className="space-y-2">
                 {items.map((item) => (
-                    <div key={item.id} className="rounded-xl border p-3">
-                        <p className="font-medium">{item.title}</p>
-                        <p className="text-xs opacity-60">#{item.id}</p>
-                    </div>
+                    <FocusItemCard key={item.id} item={item} />
                 ))}
 
                 {items.length === 0 && (
