@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// For a more complete explanation, see the start route implementation
+
+// PATCH /api/focus-items/[id]/complete
+// Changes the status of the focus item to "completed"
+
 export async function PATCH(request: Request) {
     // 1. Parse URL
     const url = new URL(request.url);
