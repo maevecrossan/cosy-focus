@@ -43,12 +43,20 @@ export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCa
 
     return (
         <section>
-            <div className="mt-3">
+            <div className="rounded-xl border bg-white p-3">
+                <div className="mb-2 space-y-1 inline-block">
+                    <h4 className="text-md font-medium">
+                        <span className="text-sm text-gray-500">#{item.id}</span> {item.title}
+                        </h4>
+                </div>
+
+                {/* Actions */}
+                {/* temporary buttons while API is being developed */}
                 {item.status === "available" && (
                     <button
                         onClick={handleStart}
                         disabled={busy}
-                        className="rounded-lg bg-black px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
+                        className="w-full rounded-lg bg-black px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
                     >
                         {busy ? "Starting..." : "Start Focus"}
                     </button>
@@ -58,7 +66,7 @@ export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCa
                     <button
                         onClick={handleComplete}
                         disabled={busy}
-                        className="rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-50"
+                        className="w-full rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-50"
                     >
                         {busy ? "Completing..." : "Complete"}
                     </button>
