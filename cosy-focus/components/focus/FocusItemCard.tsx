@@ -45,8 +45,8 @@ export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCa
         <section>
             <div className="rounded-xl border bg-white p-3">
                 <div className="mb-2 space-y-1 inline-block">
-                    <h4 className="text-md font-medium">
-                        <span className="text-sm text-gray-500">#{item.id}</span> {item.title}
+                    <h4 className="text-md font-bold">
+                        <span className="text-sm text-gray-500 m-2">#{item.id}</span> {item.title}
                         </h4>
                 </div>
 
