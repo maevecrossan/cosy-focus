@@ -1,7 +1,7 @@
 // Renders a single column in the focus board
 import FocusItemCard from "./FocusItemCard";
 
-type FocusStatus = 'available' | 'in_focus' | 'completed';
+type FocusStatus = 'available' | 'in_focus' | 'completed' | 'unfocused';
 
 export type FocusItem = {
     id: number;
@@ -14,9 +14,10 @@ type ColumnProps = {
     items: FocusItem[];
     onStart: (id: number) => Promise<void>;
     onComplete: (id: number) => Promise<void>;
+    onUnfocus?: (id: number) => Promise<void>;
 }
 
-export default function Column({ title, items, onStart, onComplete }: ColumnProps) {
+export default function Column({ title, items, onStart, onComplete, onUnfocus }: ColumnProps) {
     return (
         <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <h3 className="mb-3 text-lg font-semibold">{title}</h3>
@@ -27,7 +28,8 @@ export default function Column({ title, items, onStart, onComplete }: ColumnProp
                         key={item.id} 
                         item={item} 
                         onStart={onStart} 
-                        onComplete={onComplete} />
+                        onComplete={onComplete} 
+                        onUnfocus={onUnfocus} />
                 ))}
 
                 {items.length === 0 && (
