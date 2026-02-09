@@ -17,6 +17,7 @@ const grouped = {
     available: [],
     in_focus: [],
     completed: [],
+    unfocused: [],
 };
 
 export default function FocusBoard() {
@@ -83,6 +84,17 @@ export default function FocusBoard() {
         await refresh();
     }
 
+    // Function to unfocus a focus item
+    // Calls the API to change status to "unfocused"
+    async function unfocus(id: number) {
+        const res = await fetch(`/api/focus-items/${id}/unfocus`, { method: "PATCH" });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body?.error ?? `Failed to unfocus (${res.status})`);
+        }
+        await refresh();
+    }
+
     return (
         <section className="mt-8 p-8 bg-emerald-900/40 rounded-3xl shadow-md w-full max-w-7xl">
             <div className="mb-6 flex justify-between">
@@ -116,8 +128,9 @@ export default function FocusBoard() {
             {!loading && !error && items.length > 0 && (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                     <Column title="Available" items={grouped.available} onStart={startFocus} onComplete={completeFocus}/>
-                    <Column title="In Focus" items={grouped.in_focus} onStart={startFocus} onComplete={completeFocus}/>
+                    <Column title="In Focus" items={grouped.in_focus} onStart={startFocus} onComplete={completeFocus} onUnfocus={unfocus}/>
                     <Column title="Completed" items={grouped.completed} onStart={startFocus} onComplete={completeFocus}/>
+                    
                 </div>
             )}
         </section>
