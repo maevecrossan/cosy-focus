@@ -9,9 +9,10 @@ type FocusItemCardProps = {
     item: FocusItem;
     onStart: (id: number) => Promise<void>;
     onComplete: (id: number) => Promise<void>;
+    onUnfocus: (id: number) => Promise<void>;
 };
 
-export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCardProps) {
+export default function FocusItemCard({ item, onStart, onComplete, onUnfocus }: FocusItemCardProps) {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -41,18 +42,33 @@ export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCa
         }
     }
 
+    // Handler for unfocusing/pausing focus
+    async function handleUnfocus() {
+        try {
+            setBusy(true);
+            setError(null);
+            await onUnfocus(item.id);
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Something went wrong");
+        } finally {
+            setBusy(false);
+        }
+    }
+
     return (
         <section>
             <div className="rounded-xl border bg-white p-3">
                 <div className="mb-2 space-y-1 inline-block">
                     <h4 className="text-md font-bold">
                         <span className="text-sm text-gray-500 m-2">#{item.id}</span> {item.title}
-                        </h4>
+                    </h4>
                 </div>
 
                 {/* Actions */}
+
                 {/* temporary buttons while API is being developed */}
                 {item.status === "available" && (
+                    // START BUTTON
                     <button
                         onClick={handleStart}
                         disabled={busy}
@@ -63,13 +79,27 @@ export default function FocusItemCard({ item, onStart, onComplete }: FocusItemCa
                 )}
 
                 {item.status === "in_focus" && (
-                    <button
-                        onClick={handleComplete}
-                        disabled={busy}
-                        className="w-full rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-50"
-                    >
-                        {busy ? "Completing..." : "Complete"}
-                    </button>
+                    <div className="space-y-2">
+
+                        {/* UNFOCUS BUTTON */}
+                        <button
+                            onClick={handleUnfocus}
+                            disabled={busy}
+                            className="w-1/2 rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-50"
+                        >
+                            {busy ? "Unfocusing..." : "Unfocus"}
+                        </button>
+
+                        {/* COMPLETE BUTTON */}
+                        <button
+                            onClick={handleComplete}
+                            disabled={busy}
+                            className="w-1/2 rounded-lg border px-3 py-2 text-sm font-medium disabled:opacity-50"
+                        >
+                            {busy ? "Completing..." : "Complete"}
+                        </button>
+
+                    </div>
                 )}
 
                 {item.status === "completed" && null}
