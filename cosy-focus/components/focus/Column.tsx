@@ -22,6 +22,13 @@ export default function Column({ title, items, onStart, onComplete, onUnfocus }:
         <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <h3 className="mb-3 text-lg font-semibold">{title}</h3>
 
+            {/* Button to add new focus item */}
+            {title === 'Available' && (
+                <button className="mb-3 w-full rounded-lg bg-blue-500 py-2 px-4 text-white hover:bg-blue-600">
+                    Add Item
+                </button>
+            )}
+
             <div className="space-y-2">
                 {items.map((item) => (
                     <FocusItemCard 
